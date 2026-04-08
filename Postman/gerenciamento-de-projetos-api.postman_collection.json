@@ -1,0 +1,178 @@
+{
+  "info": {
+    "name": "Gerenciamento de Projetos API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection para validar o CRUD completo da API."
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "usuarioId", "value": "" },
+    { "key": "projetoId", "value": "" },
+    { "key": "participanteId", "value": "" },
+    { "key": "atividadeId", "value": "" },
+    { "key": "recursoId", "value": "" },
+    { "key": "custoId", "value": "" },
+    { "key": "riscoId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Fluxo CRUD Completo",
+      "item": [
+        {
+          "name": "01 Criar usuario",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["const r = pm.response.json();", "pm.collectionVariables.set('usuarioId', r.id);"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Usuario QA\",\n  \"email\": \"usuario.qa+{{$timestamp}}@example.com\",\n  \"senha\": \"senha123\",\n  \"telefone\": \"11999999999\",\n  \"perfil\": \"GERENTE_PROJETO\"\n}" }, "url": { "raw": "{{baseUrl}}/usuarios", "host": ["{{baseUrl}}"], "path": ["usuarios"] } }
+        },
+        {
+          "name": "02 Listar usuarios",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/usuarios", "host": ["{{baseUrl}}"], "path": ["usuarios"] } }
+        },
+        {
+          "name": "03 Buscar usuario por id",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/usuarios/{{usuarioId}}", "host": ["{{baseUrl}}"], "path": ["usuarios", "{{usuarioId}}"] } }
+        },
+        {
+          "name": "04 Atualizar usuario",
+          "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Usuario QA Atualizado\",\n  \"email\": \"usuario.atualizado+{{$timestamp}}@example.com\",\n  \"senha\": \"senha1234\",\n  \"telefone\": \"11888887777\",\n  \"perfil\": \"ANALISTA\"\n}" }, "url": { "raw": "{{baseUrl}}/usuarios/{{usuarioId}}", "host": ["{{baseUrl}}"], "path": ["usuarios", "{{usuarioId}}"] } }
+        },
+        {
+          "name": "05 Criar projeto",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["const r = pm.response.json();", "pm.collectionVariables.set('projetoId', r.id);"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Projeto API QA\",\n  \"descricao\": \"Projeto criado pela collection do Postman\",\n  \"objetivo\": \"Validar o CRUD completo da API\",\n  \"status\": \"PLANEJADO\",\n  \"prioridade\": \"ALTA\",\n  \"dataInicio\": \"2026-04-01\",\n  \"dataFim\": \"2026-12-31\",\n  \"orcamentoPrevisto\": 25000.00,\n  \"percentualConcluido\": 10\n}" }, "url": { "raw": "{{baseUrl}}/projetos", "host": ["{{baseUrl}}"], "path": ["projetos"] } }
+        },
+        {
+          "name": "06 Listar projetos",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/projetos", "host": ["{{baseUrl}}"], "path": ["projetos"] } }
+        },
+        {
+          "name": "07 Buscar projeto por id",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/projetos/{{projetoId}}", "host": ["{{baseUrl}}"], "path": ["projetos", "{{projetoId}}"] } }
+        },
+        {
+          "name": "08 Atualizar projeto",
+          "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Projeto API QA Atualizado\",\n  \"descricao\": \"Projeto atualizado pela collection\",\n  \"objetivo\": \"Validar atualizacao do CRUD\",\n  \"status\": \"EM_ANDAMENTO\",\n  \"prioridade\": \"CRITICA\",\n  \"dataInicio\": \"2026-04-01\",\n  \"dataFim\": \"2026-11-30\",\n  \"orcamentoPrevisto\": 32000.00,\n  \"percentualConcluido\": 45\n}" }, "url": { "raw": "{{baseUrl}}/projetos/{{projetoId}}", "host": ["{{baseUrl}}"], "path": ["projetos", "{{projetoId}}"] } }
+        },
+        {
+          "name": "09 Criar participante",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["const r = pm.response.json();", "pm.collectionVariables.set('participanteId', r.id);"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"usuarioId\": {{usuarioId}},\n  \"projetoId\": {{projetoId}},\n  \"funcaoNoProjeto\": \"Analista de testes\",\n  \"papelAcesso\": \"COORDENADOR\",\n  \"ativo\": true\n}" }, "url": { "raw": "{{baseUrl}}/participantes", "host": ["{{baseUrl}}"], "path": ["participantes"] } }
+        },
+        {
+          "name": "10 Listar participantes",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/participantes", "host": ["{{baseUrl}}"], "path": ["participantes"] } }
+        },
+        {
+          "name": "11 Buscar participante por id",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/participantes/{{participanteId}}", "host": ["{{baseUrl}}"], "path": ["participantes", "{{participanteId}}"] } }
+        },
+        {
+          "name": "12 Atualizar participante",
+          "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"usuarioId\": {{usuarioId}},\n  \"projetoId\": {{projetoId}},\n  \"funcaoNoProjeto\": \"Coordenador de qualidade\",\n  \"papelAcesso\": \"ADMINISTRADOR_PROJETO\",\n  \"ativo\": true\n}" }, "url": { "raw": "{{baseUrl}}/participantes/{{participanteId}}", "host": ["{{baseUrl}}"], "path": ["participantes", "{{participanteId}}"] } }
+        },
+        {
+          "name": "13 Criar atividade",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["const r = pm.response.json();", "pm.collectionVariables.set('atividadeId', r.id);"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Preparar plano de testes\",\n  \"descricao\": \"Definir cenarios e massa de dados\",\n  \"status\": \"NAO_INICIADA\",\n  \"prioridade\": \"ALTA\",\n  \"dataInicio\": \"2026-04-02\",\n  \"prazo\": \"2026-04-15\",\n  \"dataConclusao\": null,\n  \"percentualConclusao\": 0,\n  \"projetoId\": {{projetoId}},\n  \"responsavelId\": {{participanteId}}\n}" }, "url": { "raw": "{{baseUrl}}/atividades", "host": ["{{baseUrl}}"], "path": ["atividades"] } }
+        },
+        {
+          "name": "14 Listar atividades",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/atividades", "host": ["{{baseUrl}}"], "path": ["atividades"] } }
+        },
+        {
+          "name": "15 Buscar atividade por id",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/atividades/{{atividadeId}}", "host": ["{{baseUrl}}"], "path": ["atividades", "{{atividadeId}}"] } }
+        },
+        {
+          "name": "16 Atualizar atividade",
+          "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Preparar plano de testes atualizado\",\n  \"descricao\": \"Cenarios, massa de dados e criterios de aceite\",\n  \"status\": \"EM_ANDAMENTO\",\n  \"prioridade\": \"CRITICA\",\n  \"dataInicio\": \"2026-04-02\",\n  \"prazo\": \"2026-04-20\",\n  \"dataConclusao\": null,\n  \"percentualConclusao\": 35,\n  \"projetoId\": {{projetoId}},\n  \"responsavelId\": {{participanteId}}\n}" }, "url": { "raw": "{{baseUrl}}/atividades/{{atividadeId}}", "host": ["{{baseUrl}}"], "path": ["atividades", "{{atividadeId}}"] } }
+        },
+        {
+          "name": "17 Criar recurso",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["const r = pm.response.json();", "pm.collectionVariables.set('recursoId', r.id);"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Notebook de homologacao\",\n  \"tipo\": \"TECNOLOGICO\",\n  \"descricao\": \"Equipamento para execucao dos testes\",\n  \"quantidade\": 2,\n  \"custoUnitario\": 3500.00,\n  \"projetoId\": {{projetoId}}\n}" }, "url": { "raw": "{{baseUrl}}/recursos", "host": ["{{baseUrl}}"], "path": ["recursos"] } }
+        },
+        {
+          "name": "18 Listar recursos",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/recursos", "host": ["{{baseUrl}}"], "path": ["recursos"] } }
+        },
+        {
+          "name": "19 Buscar recurso por id",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/recursos/{{recursoId}}", "host": ["{{baseUrl}}"], "path": ["recursos", "{{recursoId}}"] } }
+        },
+        {
+          "name": "20 Atualizar recurso",
+          "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Notebook de homologacao atualizado\",\n  \"tipo\": \"TECNOLOGICO\",\n  \"descricao\": \"Equipamento principal do time de QA\",\n  \"quantidade\": 3,\n  \"custoUnitario\": 3700.00,\n  \"projetoId\": {{projetoId}}\n}" }, "url": { "raw": "{{baseUrl}}/recursos/{{recursoId}}", "host": ["{{baseUrl}}"], "path": ["recursos", "{{recursoId}}"] } }
+        },
+        {
+          "name": "21 Criar custo",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["const r = pm.response.json();", "pm.collectionVariables.set('custoId', r.id);"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"descricao\": \"Aquisicao de equipamentos de teste\",\n  \"tipo\": \"AQUISICAO\",\n  \"valorPrevisto\": 7000.00,\n  \"valorReal\": 6800.00,\n  \"dataLancamento\": \"2026-04-05\",\n  \"projetoId\": {{projetoId}},\n  \"atividadeId\": {{atividadeId}},\n  \"recursoId\": {{recursoId}}\n}" }, "url": { "raw": "{{baseUrl}}/custos", "host": ["{{baseUrl}}"], "path": ["custos"] } }
+        },
+        {
+          "name": "22 Listar custos",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/custos", "host": ["{{baseUrl}}"], "path": ["custos"] } }
+        },
+        {
+          "name": "23 Buscar custo por id",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/custos/{{custoId}}", "host": ["{{baseUrl}}"], "path": ["custos", "{{custoId}}"] } }
+        },
+        {
+          "name": "24 Atualizar custo",
+          "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"descricao\": \"Aquisicao de equipamentos de teste atualizada\",\n  \"tipo\": \"OPERACIONAL\",\n  \"valorPrevisto\": 7500.00,\n  \"valorReal\": 7200.00,\n  \"dataLancamento\": \"2026-04-10\",\n  \"projetoId\": {{projetoId}},\n  \"atividadeId\": {{atividadeId}},\n  \"recursoId\": {{recursoId}}\n}" }, "url": { "raw": "{{baseUrl}}/custos/{{custoId}}", "host": ["{{baseUrl}}"], "path": ["custos", "{{custoId}}"] } }
+        },
+        {
+          "name": "25 Criar risco",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["const r = pm.response.json();", "pm.collectionVariables.set('riscoId', r.id);"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Atraso na homologacao\",\n  \"descricao\": \"Dependencia de ambiente externo pode atrasar a entrega\",\n  \"categoria\": \"PRAZO\",\n  \"probabilidade\": 4,\n  \"impacto\": 5,\n  \"criticidade\": 20,\n  \"status\": \"IDENTIFICADO\",\n  \"estrategiaResposta\": \"Mitigar\",\n  \"planoMitigacao\": \"Reservar janela adicional e acompanhar fornecedor\",\n  \"projetoId\": {{projetoId}}\n}" }, "url": { "raw": "{{baseUrl}}/riscos", "host": ["{{baseUrl}}"], "path": ["riscos"] } }
+        },
+        {
+          "name": "26 Listar riscos",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/riscos", "host": ["{{baseUrl}}"], "path": ["riscos"] } }
+        },
+        {
+          "name": "27 Buscar risco por id",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/riscos/{{riscoId}}", "host": ["{{baseUrl}}"], "path": ["riscos", "{{riscoId}}"] } }
+        },
+        {
+          "name": "28 Atualizar risco",
+          "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Atraso na homologacao atualizado\",\n  \"descricao\": \"Risco monitorado com plano de contingencia\",\n  \"categoria\": \"PRAZO\",\n  \"probabilidade\": 3,\n  \"impacto\": 5,\n  \"criticidade\": 15,\n  \"status\": \"EM_TRATAMENTO\",\n  \"estrategiaResposta\": \"Monitorar e mitigar\",\n  \"planoMitigacao\": \"Reuniao semanal com fornecedor e plano B interno\",\n  \"projetoId\": {{projetoId}}\n}" }, "url": { "raw": "{{baseUrl}}/riscos/{{riscoId}}", "host": ["{{baseUrl}}"], "path": ["riscos", "{{riscoId}}"] } }
+        },
+        {
+          "name": "29 Deletar custo",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.collectionVariables.unset('custoId');"] } }],
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/custos/{{custoId}}", "host": ["{{baseUrl}}"], "path": ["custos", "{{custoId}}"] } }
+        },
+        {
+          "name": "30 Deletar atividade",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.collectionVariables.unset('atividadeId');"] } }],
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/atividades/{{atividadeId}}", "host": ["{{baseUrl}}"], "path": ["atividades", "{{atividadeId}}"] } }
+        },
+        {
+          "name": "31 Deletar recurso",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.collectionVariables.unset('recursoId');"] } }],
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/recursos/{{recursoId}}", "host": ["{{baseUrl}}"], "path": ["recursos", "{{recursoId}}"] } }
+        },
+        {
+          "name": "32 Deletar participante",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.collectionVariables.unset('participanteId');"] } }],
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/participantes/{{participanteId}}", "host": ["{{baseUrl}}"], "path": ["participantes", "{{participanteId}}"] } }
+        },
+        {
+          "name": "33 Deletar risco",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.collectionVariables.unset('riscoId');"] } }],
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/riscos/{{riscoId}}", "host": ["{{baseUrl}}"], "path": ["riscos", "{{riscoId}}"] } }
+        },
+        {
+          "name": "34 Deletar projeto",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.collectionVariables.unset('projetoId');"] } }],
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/projetos/{{projetoId}}", "host": ["{{baseUrl}}"], "path": ["projetos", "{{projetoId}}"] } }
+        },
+        {
+          "name": "35 Deletar usuario",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.collectionVariables.unset('usuarioId');"] } }],
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/usuarios/{{usuarioId}}", "host": ["{{baseUrl}}"], "path": ["usuarios", "{{usuarioId}}"] } }
+        }
+      ]
+    }
+  ]
+}
