@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.projeto.ProjetoPatchRequestDto;
 import com.example.demo.dto.projeto.ProjetoRequestDto;
 import com.example.demo.dto.projeto.ProjetoResponseDto;
 import com.example.demo.entity.Projeto;
@@ -37,6 +38,12 @@ public class ProjetoService {
         return toResponse(projetoRepository.save(projeto));
     }
 
+    public ProjetoResponseDto atualizarParcialmente(Long id, ProjetoPatchRequestDto request) {
+        Projeto projeto = buscarProjeto(id);
+        preencherCamposParciais(projeto, request);
+        return toResponse(projetoRepository.save(projeto));
+    }
+
     public void deletar(Long id) {
         projetoRepository.delete(buscarProjeto(id));
     }
@@ -51,6 +58,36 @@ public class ProjetoService {
         projeto.setDataFim(request.getDataFim());
         projeto.setOrcamentoPrevisto(request.getOrcamentoPrevisto());
         projeto.setPercentualConcluido(request.getPercentualConcluido());
+    }
+
+    private void preencherCamposParciais(Projeto projeto, ProjetoPatchRequestDto request) {
+        if (request.getNome() != null) {
+            projeto.setNome(request.getNome());
+        }
+        if (request.getDescricao() != null) {
+            projeto.setDescricao(request.getDescricao());
+        }
+        if (request.getObjetivo() != null) {
+            projeto.setObjetivo(request.getObjetivo());
+        }
+        if (request.getStatus() != null) {
+            projeto.setStatus(request.getStatus());
+        }
+        if (request.getPrioridade() != null) {
+            projeto.setPrioridade(request.getPrioridade());
+        }
+        if (request.getDataInicio() != null) {
+            projeto.setDataInicio(request.getDataInicio());
+        }
+        if (request.getDataFim() != null) {
+            projeto.setDataFim(request.getDataFim());
+        }
+        if (request.getOrcamentoPrevisto() != null) {
+            projeto.setOrcamentoPrevisto(request.getOrcamentoPrevisto());
+        }
+        if (request.getPercentualConcluido() != null) {
+            projeto.setPercentualConcluido(request.getPercentualConcluido());
+        }
     }
 
     private Projeto buscarProjeto(Long id) {

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.projeto.ProjetoPatchRequestDto;
 import com.example.demo.dto.projeto.ProjetoRequestDto;
 import com.example.demo.dto.projeto.ProjetoResponseDto;
 import com.example.demo.service.ProjetoService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,6 +45,12 @@ public class ProjetoController {
     @PutMapping("/{id}")
     public ResponseEntity<ProjetoResponseDto> atualizar(@PathVariable Long id, @Valid @RequestBody ProjetoRequestDto request) {
         return ResponseEntity.ok(projetoService.atualizar(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProjetoResponseDto> atualizarParcialmente(@PathVariable Long id,
+            @Valid @RequestBody ProjetoPatchRequestDto request) {
+        return ResponseEntity.ok(projetoService.atualizarParcialmente(id, request));
     }
 
     @DeleteMapping("/{id}")

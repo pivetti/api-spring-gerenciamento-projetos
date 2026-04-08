@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.risco.RiscoPatchRequestDto;
 import com.example.demo.dto.risco.RiscoRequestDto;
 import com.example.demo.dto.risco.RiscoResponseDto;
 import com.example.demo.service.RiscoService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,6 +45,12 @@ public class RiscoController {
     @PutMapping("/{id}")
     public ResponseEntity<RiscoResponseDto> atualizar(@PathVariable Long id, @Valid @RequestBody RiscoRequestDto request) {
         return ResponseEntity.ok(riscoService.atualizar(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<RiscoResponseDto> atualizarParcialmente(@PathVariable Long id,
+            @Valid @RequestBody RiscoPatchRequestDto request) {
+        return ResponseEntity.ok(riscoService.atualizarParcialmente(id, request));
     }
 
     @DeleteMapping("/{id}")

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.custo.CustoPatchRequestDto;
 import com.example.demo.dto.custo.CustoRequestDto;
 import com.example.demo.dto.custo.CustoResponseDto;
 import com.example.demo.entity.Atividade;
@@ -46,6 +47,12 @@ public class CustoService {
         return toResponse(custoRepository.save(custo));
     }
 
+    public CustoResponseDto atualizarParcialmente(Long id, CustoPatchRequestDto request) {
+        Custo custo = buscarCusto(id);
+        preencherCamposParciais(custo, request);
+        return toResponse(custoRepository.save(custo));
+    }
+
     public void deletar(Long id) {
         custoRepository.delete(buscarCusto(id));
     }
@@ -59,6 +66,33 @@ public class CustoService {
         custo.setProjeto(buscarProjeto(request.getProjetoId()));
         custo.setAtividade(request.getAtividadeId() != null ? buscarAtividade(request.getAtividadeId()) : null);
         custo.setRecurso(request.getRecursoId() != null ? buscarRecurso(request.getRecursoId()) : null);
+    }
+
+    private void preencherCamposParciais(Custo custo, CustoPatchRequestDto request) {
+        if (request.getDescricao() != null) {
+            custo.setDescricao(request.getDescricao());
+        }
+        if (request.getTipo() != null) {
+            custo.setTipo(request.getTipo());
+        }
+        if (request.getValorPrevisto() != null) {
+            custo.setValorPrevisto(request.getValorPrevisto());
+        }
+        if (request.getValorReal() != null) {
+            custo.setValorReal(request.getValorReal());
+        }
+        if (request.getDataLancamento() != null) {
+            custo.setDataLancamento(request.getDataLancamento());
+        }
+        if (request.getProjetoId() != null) {
+            custo.setProjeto(buscarProjeto(request.getProjetoId()));
+        }
+        if (request.getAtividadeId() != null) {
+            custo.setAtividade(buscarAtividade(request.getAtividadeId()));
+        }
+        if (request.getRecursoId() != null) {
+            custo.setRecurso(buscarRecurso(request.getRecursoId()));
+        }
     }
 
     private Custo buscarCusto(Long id) {

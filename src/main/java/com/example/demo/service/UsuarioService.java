@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.usuario.UsuarioPatchRequestDto;
 import com.example.demo.dto.usuario.UsuarioRequestDto;
 import com.example.demo.dto.usuario.UsuarioResponseDto;
 import com.example.demo.entity.Usuario;
@@ -37,6 +38,12 @@ public class UsuarioService {
         return toResponse(usuarioRepository.save(usuario));
     }
 
+    public UsuarioResponseDto atualizarParcialmente(Long id, UsuarioPatchRequestDto request) {
+        Usuario usuario = buscarUsuario(id);
+        preencherCamposParciais(usuario, request);
+        return toResponse(usuarioRepository.save(usuario));
+    }
+
     public void deletar(Long id) {
         usuarioRepository.delete(buscarUsuario(id));
     }
@@ -47,6 +54,24 @@ public class UsuarioService {
         usuario.setSenha(request.getSenha());
         usuario.setTelefone(request.getTelefone());
         usuario.setPerfil(request.getPerfil());
+    }
+
+    private void preencherCamposParciais(Usuario usuario, UsuarioPatchRequestDto request) {
+        if (request.getNome() != null) {
+            usuario.setNome(request.getNome());
+        }
+        if (request.getEmail() != null) {
+            usuario.setEmail(request.getEmail());
+        }
+        if (request.getSenha() != null) {
+            usuario.setSenha(request.getSenha());
+        }
+        if (request.getTelefone() != null) {
+            usuario.setTelefone(request.getTelefone());
+        }
+        if (request.getPerfil() != null) {
+            usuario.setPerfil(request.getPerfil());
+        }
     }
 
     private Usuario buscarUsuario(Long id) {

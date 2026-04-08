@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.participante.ParticipantePatchRequestDto;
 import com.example.demo.dto.participante.ParticipanteRequestDto;
 import com.example.demo.dto.participante.ParticipanteResponseDto;
 import com.example.demo.entity.Participante;
@@ -43,6 +44,12 @@ public class ParticipanteService {
         return toResponse(participanteRepository.save(participante));
     }
 
+    public ParticipanteResponseDto atualizarParcialmente(Long id, ParticipantePatchRequestDto request) {
+        Participante participante = buscarParticipante(id);
+        preencherCamposParciais(participante, request);
+        return toResponse(participanteRepository.save(participante));
+    }
+
     public void deletar(Long id) {
         participanteRepository.delete(buscarParticipante(id));
     }
@@ -53,6 +60,24 @@ public class ParticipanteService {
         participante.setFuncaoNoProjeto(request.getFuncaoNoProjeto());
         participante.setPapelAcesso(request.getPapelAcesso());
         participante.setAtivo(request.getAtivo());
+    }
+
+    private void preencherCamposParciais(Participante participante, ParticipantePatchRequestDto request) {
+        if (request.getUsuarioId() != null) {
+            participante.setUsuario(buscarUsuario(request.getUsuarioId()));
+        }
+        if (request.getProjetoId() != null) {
+            participante.setProjeto(buscarProjeto(request.getProjetoId()));
+        }
+        if (request.getFuncaoNoProjeto() != null) {
+            participante.setFuncaoNoProjeto(request.getFuncaoNoProjeto());
+        }
+        if (request.getPapelAcesso() != null) {
+            participante.setPapelAcesso(request.getPapelAcesso());
+        }
+        if (request.getAtivo() != null) {
+            participante.setAtivo(request.getAtivo());
+        }
     }
 
     private Participante buscarParticipante(Long id) {

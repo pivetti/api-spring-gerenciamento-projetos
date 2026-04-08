@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.risco.RiscoPatchRequestDto;
 import com.example.demo.dto.risco.RiscoRequestDto;
 import com.example.demo.dto.risco.RiscoResponseDto;
 import com.example.demo.entity.Projeto;
@@ -40,6 +41,12 @@ public class RiscoService {
         return toResponse(riscoRepository.save(risco));
     }
 
+    public RiscoResponseDto atualizarParcialmente(Long id, RiscoPatchRequestDto request) {
+        Risco risco = buscarRisco(id);
+        preencherCamposParciais(risco, request);
+        return toResponse(riscoRepository.save(risco));
+    }
+
     public void deletar(Long id) {
         riscoRepository.delete(buscarRisco(id));
     }
@@ -55,6 +62,39 @@ public class RiscoService {
         risco.setEstrategiaResposta(request.getEstrategiaResposta());
         risco.setPlanoMitigacao(request.getPlanoMitigacao());
         risco.setProjeto(buscarProjeto(request.getProjetoId()));
+    }
+
+    private void preencherCamposParciais(Risco risco, RiscoPatchRequestDto request) {
+        if (request.getTitulo() != null) {
+            risco.setTitulo(request.getTitulo());
+        }
+        if (request.getDescricao() != null) {
+            risco.setDescricao(request.getDescricao());
+        }
+        if (request.getCategoria() != null) {
+            risco.setCategoria(request.getCategoria());
+        }
+        if (request.getProbabilidade() != null) {
+            risco.setProbabilidade(request.getProbabilidade());
+        }
+        if (request.getImpacto() != null) {
+            risco.setImpacto(request.getImpacto());
+        }
+        if (request.getCriticidade() != null) {
+            risco.setCriticidade(request.getCriticidade());
+        }
+        if (request.getStatus() != null) {
+            risco.setStatus(request.getStatus());
+        }
+        if (request.getEstrategiaResposta() != null) {
+            risco.setEstrategiaResposta(request.getEstrategiaResposta());
+        }
+        if (request.getPlanoMitigacao() != null) {
+            risco.setPlanoMitigacao(request.getPlanoMitigacao());
+        }
+        if (request.getProjetoId() != null) {
+            risco.setProjeto(buscarProjeto(request.getProjetoId()));
+        }
     }
 
     private Risco buscarRisco(Long id) {

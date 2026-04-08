@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.recurso.RecursoPatchRequestDto;
 import com.example.demo.dto.recurso.RecursoRequestDto;
 import com.example.demo.dto.recurso.RecursoResponseDto;
 import com.example.demo.entity.Projeto;
@@ -40,6 +41,12 @@ public class RecursoService {
         return toResponse(recursoRepository.save(recurso));
     }
 
+    public RecursoResponseDto atualizarParcialmente(Long id, RecursoPatchRequestDto request) {
+        Recurso recurso = buscarRecurso(id);
+        preencherCamposParciais(recurso, request);
+        return toResponse(recursoRepository.save(recurso));
+    }
+
     public void deletar(Long id) {
         recursoRepository.delete(buscarRecurso(id));
     }
@@ -51,6 +58,27 @@ public class RecursoService {
         recurso.setQuantidade(request.getQuantidade());
         recurso.setCustoUnitario(request.getCustoUnitario());
         recurso.setProjeto(buscarProjeto(request.getProjetoId()));
+    }
+
+    private void preencherCamposParciais(Recurso recurso, RecursoPatchRequestDto request) {
+        if (request.getNome() != null) {
+            recurso.setNome(request.getNome());
+        }
+        if (request.getTipo() != null) {
+            recurso.setTipo(request.getTipo());
+        }
+        if (request.getDescricao() != null) {
+            recurso.setDescricao(request.getDescricao());
+        }
+        if (request.getQuantidade() != null) {
+            recurso.setQuantidade(request.getQuantidade());
+        }
+        if (request.getCustoUnitario() != null) {
+            recurso.setCustoUnitario(request.getCustoUnitario());
+        }
+        if (request.getProjetoId() != null) {
+            recurso.setProjeto(buscarProjeto(request.getProjetoId()));
+        }
     }
 
     private Recurso buscarRecurso(Long id) {

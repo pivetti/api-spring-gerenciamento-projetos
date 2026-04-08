@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.participante.ParticipantePatchRequestDto;
 import com.example.demo.dto.participante.ParticipanteRequestDto;
 import com.example.demo.dto.participante.ParticipanteResponseDto;
 import com.example.demo.service.ParticipanteService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,6 +46,12 @@ public class ParticipanteController {
     public ResponseEntity<ParticipanteResponseDto> atualizar(@PathVariable Long id,
             @Valid @RequestBody ParticipanteRequestDto request) {
         return ResponseEntity.ok(participanteService.atualizar(id, request));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ParticipanteResponseDto> atualizarParcialmente(@PathVariable Long id,
+            @Valid @RequestBody ParticipantePatchRequestDto request) {
+        return ResponseEntity.ok(participanteService.atualizarParcialmente(id, request));
     }
 
     @DeleteMapping("/{id}")

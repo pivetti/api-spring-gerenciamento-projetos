@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.atividade.AtividadePatchRequestDto;
 import com.example.demo.dto.atividade.AtividadeRequestDto;
 import com.example.demo.dto.atividade.AtividadeResponseDto;
 import com.example.demo.entity.Atividade;
@@ -43,6 +44,12 @@ public class AtividadeService {
         return toResponse(atividadeRepository.save(atividade));
     }
 
+    public AtividadeResponseDto atualizarParcialmente(Long id, AtividadePatchRequestDto request) {
+        Atividade atividade = buscarAtividade(id);
+        preencherCamposParciais(atividade, request);
+        return toResponse(atividadeRepository.save(atividade));
+    }
+
     public void deletar(Long id) {
         atividadeRepository.delete(buscarAtividade(id));
     }
@@ -59,6 +66,39 @@ public class AtividadeService {
         atividade.setProjeto(buscarProjeto(request.getProjetoId()));
         atividade.setResponsavel(
                 request.getResponsavelId() != null ? buscarParticipante(request.getResponsavelId()) : null);
+    }
+
+    private void preencherCamposParciais(Atividade atividade, AtividadePatchRequestDto request) {
+        if (request.getTitulo() != null) {
+            atividade.setTitulo(request.getTitulo());
+        }
+        if (request.getDescricao() != null) {
+            atividade.setDescricao(request.getDescricao());
+        }
+        if (request.getStatus() != null) {
+            atividade.setStatus(request.getStatus());
+        }
+        if (request.getPrioridade() != null) {
+            atividade.setPrioridade(request.getPrioridade());
+        }
+        if (request.getDataInicio() != null) {
+            atividade.setDataInicio(request.getDataInicio());
+        }
+        if (request.getPrazo() != null) {
+            atividade.setPrazo(request.getPrazo());
+        }
+        if (request.getDataConclusao() != null) {
+            atividade.setDataConclusao(request.getDataConclusao());
+        }
+        if (request.getPercentualConclusao() != null) {
+            atividade.setPercentualConclusao(request.getPercentualConclusao());
+        }
+        if (request.getProjetoId() != null) {
+            atividade.setProjeto(buscarProjeto(request.getProjetoId()));
+        }
+        if (request.getResponsavelId() != null) {
+            atividade.setResponsavel(buscarParticipante(request.getResponsavelId()));
+        }
     }
 
     private Atividade buscarAtividade(Long id) {
